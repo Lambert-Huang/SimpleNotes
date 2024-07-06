@@ -1,0 +1,13 @@
+//
+//  Configuration.xcconfig
+//  SimpleNotes
+//
+//  Created by lambert on 06/07/2024.
+//  Copyright © 2024 lambert. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+XCC_BUNDLE_NAME = SimpleNotes-Dev
+XCC_CONFIG_PATH = Development/BuildConfiguration.plist
