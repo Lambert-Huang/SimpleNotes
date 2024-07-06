@@ -1,4 +1,4 @@
-import ComposableArchitecture
+import UIFeatureKit
 import SwiftUI
 
 @Reducer
@@ -25,6 +25,15 @@ public struct AppView: View {
 		self.store = store
 	}
 	public var body: some View {
-		/*@START_MENU_TOKEN@*//*@PLACEHOLDER=Hello, world!@*/Text("Hello, world!")/*@END_MENU_TOKEN@*/
+    Text(LocalString("Hello, world!", bundle: .module))
 	}
+}
+
+#Preview {
+  AppView(
+    store: Store(
+      initialState: AppLogic.State(),
+      reducer: { AppLogic() }
+    )
+  )
 }

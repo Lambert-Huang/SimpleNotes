@@ -4,58 +4,35 @@
 import PackageDescription
 
 let package = Package(
-  name: "SimpleNotes",
+  name: "UI",
   platforms: [
     .iOS(.v15),
-    .macOS(.v13)
+    .macOS(.v13),
   ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .library(
-      name: "AppFeature",
-      targets: ["AppFeature"]
-    ),
-    .library(
-      name: "BaseFeature",
-      targets: ["BaseFeature"]
-    ),
-    .library(
-      name: "UIFeatureKit",
-      targets: ["UIFeatureKit"]
-    ),
+      name: "UIDesignKit",
+      targets: ["UIDesignKit"]),
   ],
   dependencies: [
     .package(path: "../Shared"),
     .package(path: "../Service"),
-    .package(path: "../UI"),
+    .package(url: "https://github.com/airbnb/lottie-spm.git", .upToNextMajor(from: "4.4.3")),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     .target(
-      name: "AppFeature",
+      name: "UIDesignKit",
       dependencies: [
-        "UIFeatureKit",
-      ],
-      resources: [
-        .process("Resources")
-      ]
-    ),
-    .target(
-      name: "BaseFeature",
-      dependencies: [
-//        .product(name: "Storage", package: "Service"),
+        //        .product(name: "Entity", package: "Service"),
+        .product(name: "DesignKit", package: "Shared"),
         .product(name: "ThirdPartyKit", package: "Shared"),
         .product(name: "ImageResourceKit", package: "Shared"),
-        .product(name: "UIDesignKit", package: "UI"),
-      ]
-    ),
-    .target(
-      name: "UIFeatureKit",
-      dependencies: [
-        "BaseFeature",
-        .product(name: "ThirdPartyKit", package: "Shared")
-      ]
+        .product(name: "Lottie", package: "lottie-spm"),
+      ],
+      resources: [.process("Resources")]
     ),
   ]
 )

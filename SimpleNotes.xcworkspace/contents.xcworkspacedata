@@ -7,4 +7,13 @@
    <FileRef
       location = "group:Packages/SimpleNotes">
    </FileRef>
+   <FileRef
+      location = "group:Packages/Service">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/UI">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/Shared">
+   </FileRef>
 </Workspace>

@@ -9,49 +9,53 @@ import SwiftUI
 import ComposableArchitecture
 import AppFeature
 
-final class AppDelegate: NSObject, UIApplicationDelegate {
-
-	static let shared = AppDelegate()
-	let store = Store(
-		initialState: AppLogic.State(),
-		reducer: {
-			AppLogic()
-		}
-	)
-
-	func application(
-		_ application: UIApplication,
-		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-	) -> Bool {
-		return true
-	}
-
-	func application(
-		_ application: UIApplication,
-		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-	) {
-
-	}
-
-	func application(
-		_ application: UIApplication,
-		didFailToRegisterForRemoteNotificationsWithError error: Error
-	) {
-		
-	}
-
-	func application(
-		_ app: UIApplication,
-		open url: URL,
-		options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-	) -> Bool {
-		return true
-	}
-}
+//final class AppDelegate: NSObject, UIApplicationDelegate {
+//
+//	static let shared = AppDelegate()
+//	let store = Store(
+//		initialState: AppLogic.State(),
+//		reducer: {
+//			AppLogic()
+//		}
+//	)
+//
+//	func application(
+//		_ application: UIApplication,
+//		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+//	) -> Bool {
+//		return true
+//	}
+//
+//	func application(
+//		_ application: UIApplication,
+//		didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+//	) {
+//
+//	}
+//
+//	func application(
+//		_ application: UIApplication,
+//		didFailToRegisterForRemoteNotificationsWithError error: Error
+//	) {
+//		
+//	}
+//
+//	func application(
+//		_ app: UIApplication,
+//		open url: URL,
+//		options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+//	) -> Bool {
+//		return true
+//	}
+//}
 
 @main
 struct SimpleNotesApp: App {
+  #if os(iOS)
 	@UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+  #elseif os(macOS)
+  @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+  #endif
 	var body: some Scene {
 		WindowGroup {
 			AppView(
