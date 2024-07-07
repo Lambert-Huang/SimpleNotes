@@ -22,7 +22,7 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/malcommac/SwiftDate.git", from: "7.0.0"),
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.8.0"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.10.0"),
   ],
   targets: [
     .target(
