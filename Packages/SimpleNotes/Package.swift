@@ -23,6 +23,18 @@ let package = Package(
       name: "UIFeatureKit",
       targets: ["UIFeatureKit"]
     ),
+		.library(
+			name: "OnboardingFeature",
+			targets: ["OnboardingFeature"]
+		),
+		.library(
+			name: "HomeFeature",
+			targets: ["HomeFeature"]
+		),
+		.library(
+			name: "RootTabFeature",
+			targets: ["RootTabFeature"]
+		),
   ],
   dependencies: [
     .package(path: "../Shared"),
@@ -36,11 +48,40 @@ let package = Package(
       name: "AppFeature",
       dependencies: [
         "UIFeatureKit",
+				"RootTabFeature",
+				"OnboardingFeature",
       ],
       resources: [
         .process("Resources")
       ]
     ),
+		.target(
+			name: "HomeFeature",
+			dependencies: [
+				"UIFeatureKit",
+			],
+			resources: [
+				.process("Resources")
+			]
+		),
+		.target(
+			name: "RootTabFeature",
+			dependencies: [
+				"UIFeatureKit",
+			],
+			resources: [
+				.process("Resources")
+			]
+		),
+		.target(
+			name: "OnboardingFeature",
+			dependencies: [
+				"UIFeatureKit",
+			],
+			resources: [
+				.process("Resources")
+			]
+		),
     .target(
       name: "BaseFeature",
       dependencies: [

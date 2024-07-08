@@ -16,7 +16,7 @@ public class AppDelegate: NSObject, UIApplicationDelegate {
   public let store = Store(
     initialState: AppLogic.State(),
     reducer: {
-      AppLogic()
+			AppLogic()._printChanges()
     }
   )
   public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -43,6 +43,5 @@ public class AppDelegate: NSObject, NSApplicationDelegate {
 private extension AppDelegate {
   func setupDateRegion() {
     SwiftDate.defaultRegion = .local
-    debugPrint("DateRegion")
   }
 }

@@ -1,6 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Calendar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日历"
+          }
+        }
+      }
+    },
+    "Folder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "事项簿"
+          }
+        }
+      }
+    },
     "Hello, world!" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,6 +30,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你好，世界!"
+          }
+        }
+      }
+    },
+    "Home" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主页"
           }
         }
       }
