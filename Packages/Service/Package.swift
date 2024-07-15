@@ -17,7 +17,6 @@ let package = Package(
   ],
   dependencies: [
     .package(path: "../Shared"),
-    .package(url: "https://github.com/tgrapperon/swift-dependencies-additions.git", from: "1.0.2"),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,6 +24,5 @@ let package = Package(
     .target(
       name: "Service", dependencies: [
         .product(name: "ThirdPartyKit", package: "Shared"),
-        .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
       ]),
   ])

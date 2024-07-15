@@ -1,7 +1,39 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-
+    "Calendar" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日历"
+          }
+        }
+      }
+    },
+    "Folder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "事项簿"
+          }
+        }
+      }
+    },
+    "Home" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主页"
+          }
+        }
+      }
+    }
   },
   "version" : "1.0"
 }

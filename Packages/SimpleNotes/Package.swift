@@ -35,6 +35,18 @@ let package = Package(
 			name: "RootTabFeature",
 			targets: ["RootTabFeature"]
 		),
+    .library(
+      name: "CalendarFeature",
+      targets: ["CalendarFeature"]
+    ),
+    .library(
+      name: "FolderFeature",
+      targets: ["FolderFeature"]
+    ),
+    .library(
+      name: "SearchFeature",
+      targets: ["SearchFeature"]
+    ),
   ],
   dependencies: [
     .package(path: "../Shared"),
@@ -59,15 +71,37 @@ let package = Package(
 			name: "HomeFeature",
 			dependencies: [
 				"UIFeatureKit",
+        "SearchFeature",
 			],
 			resources: [
 				.process("Resources")
 			]
 		),
+    .target(
+      name: "CalendarFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
+    .target(
+      name: "FolderFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
 		.target(
 			name: "RootTabFeature",
 			dependencies: [
 				"UIFeatureKit",
+        "FolderFeature",
+        "CalendarFeature",
+        "HomeFeature",
 			],
 			resources: [
 				.process("Resources")
@@ -82,6 +116,15 @@ let package = Package(
 				.process("Resources")
 			]
 		),
+    .target(
+      name: "SearchFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
     .target(
       name: "BaseFeature",
       dependencies: [

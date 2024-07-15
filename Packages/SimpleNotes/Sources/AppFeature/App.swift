@@ -14,7 +14,7 @@ public struct AppLogic {
 		var view: View.State
 		@Shared(.appStorage("didLoadOnboarding")) var didLoadOnboarding = false
 		public init() {
-			view = _didLoadOnboarding.wrappedValue ? .rootTab(RootTab.State()) : .onboarding(Onboarding.State())
+			view = _didLoadOnboarding.wrappedValue ? .rootTab(RootTabFeature.State()) : .onboarding(OnboardingFeature.State())
 		}
 	}
 	public enum Action {
@@ -24,15 +24,15 @@ public struct AppLogic {
 	}
 	public var body: some ReducerOf<Self> {
 		Scope(state: \.view.onboarding, action: \.view.onboarding) {
-			Onboarding()
+      OnboardingFeature()
 		}
 		Scope(state: \.view.rootTab, action: \.view.rootTab) {
-			RootTab()
+      RootTabFeature()
 		}
 		Reduce { state, action in
 			switch action {
 			case let .didChangeOnboardingState(didLoad):
-				state.view = didLoad ? .rootTab(RootTab.State()) : .onboarding(Onboarding.State())
+				state.view = didLoad ? .rootTab(RootTabFeature.State()) : .onboarding(OnboardingFeature.State())
 				return .none
 			case .onTask:
 				return .publisher {
@@ -48,18 +48,18 @@ public struct AppLogic {
 	@Reducer
 	public struct View {
 		public enum State: Equatable {
-			case onboarding(Onboarding.State = .init())
-			case rootTab(RootTab.State = .init())
+			case onboarding(OnboardingFeature.State = .init())
+			case rootTab(RootTabFeature.State = .init())
 		}
 
 		public enum Action {
-			case onboarding(Onboarding.Action)
-			case rootTab(RootTab.Action)
+			case onboarding(OnboardingFeature.Action)
+			case rootTab(RootTabFeature.Action)
 		}
 
 		public var body: some Reducer<State, Action> {
-			Scope(state: \.onboarding, action: \.onboarding, child: Onboarding.init)
-			Scope(state: \.rootTab, action: \.rootTab, child: RootTab.init)
+			Scope(state: \.onboarding, action: \.onboarding, child: OnboardingFeature.init)
+			Scope(state: \.rootTab, action: \.rootTab, child: RootTabFeature.init)
 		}
 	}
 }
