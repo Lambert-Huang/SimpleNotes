@@ -62,12 +62,10 @@ public struct RootTabFeature {
 	@ObservableState
 	public struct State: Equatable {
     @Shared(.appStorage("selectedTab")) var selectedTab: RootTab = .home
-    var home = HomeFeature.State()
+    var home = HomeFeature.State.initialState
     var calendar = CalendarFeature.State()
     var folder = FolderFeature.State()
-		public init() {
-      
-    }
+    public init() {}
 	}
   public enum Action: BindableAction {
     case binding(BindingAction<State>)

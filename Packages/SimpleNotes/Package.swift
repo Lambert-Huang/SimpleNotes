@@ -47,6 +47,10 @@ let package = Package(
       name: "SearchFeature",
       targets: ["SearchFeature"]
     ),
+    .library(
+      name: "SettingsFeature",
+      targets: ["SettingsFeature"]
+    ),
   ],
   dependencies: [
     .package(path: "../Shared"),
@@ -72,6 +76,7 @@ let package = Package(
 			dependencies: [
 				"UIFeatureKit",
         "SearchFeature",
+        "SettingsFeature",
 			],
 			resources: [
 				.process("Resources")
@@ -126,11 +131,21 @@ let package = Package(
       ]
     ),
     .target(
+      name: "SettingsFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
+    .target(
       name: "BaseFeature",
       dependencies: [
 //        .product(name: "Storage", package: "Service"),
         .product(name: "ThirdPartyKit", package: "Shared"),
         .product(name: "ImageResourceKit", package: "Shared"),
+        .product(name: "DesignKit", package: "Shared"),
         .product(name: "UIDesignKit", package: "UI"),
       ]
     ),
