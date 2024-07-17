@@ -14,6 +14,9 @@ let package = Package(
     .library(
       name: "Service",
       targets: ["Service"]),
+    .library(
+      name: "Entity",
+      targets: ["Entity"]),
   ],
   dependencies: [
     .package(path: "../Shared"),
@@ -24,5 +27,9 @@ let package = Package(
     .target(
       name: "Service", dependencies: [
         .product(name: "ThirdPartyKit", package: "Shared"),
+      ]),
+    .target(
+      name: "Entity", dependencies: [
+        
       ]),
   ])
