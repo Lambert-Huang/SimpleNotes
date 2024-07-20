@@ -6,4 +6,5 @@
 @_exported import Lottie
 //@_exported import Storage
 @_exported import ThirdPartyKit
+@_exported import DesignKit
 @_exported import UIDesignKit

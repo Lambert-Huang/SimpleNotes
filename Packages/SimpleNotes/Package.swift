@@ -35,6 +35,22 @@ let package = Package(
 			name: "RootTabFeature",
 			targets: ["RootTabFeature"]
 		),
+    .library(
+      name: "CalendarFeature",
+      targets: ["CalendarFeature"]
+    ),
+    .library(
+      name: "FolderFeature",
+      targets: ["FolderFeature"]
+    ),
+    .library(
+      name: "SearchFeature",
+      targets: ["SearchFeature"]
+    ),
+    .library(
+      name: "SettingsFeature",
+      targets: ["SettingsFeature"]
+    ),
   ],
   dependencies: [
     .package(path: "../Shared"),
@@ -59,15 +75,38 @@ let package = Package(
 			name: "HomeFeature",
 			dependencies: [
 				"UIFeatureKit",
+        "SearchFeature",
+        "SettingsFeature",
 			],
 			resources: [
 				.process("Resources")
 			]
 		),
+    .target(
+      name: "CalendarFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
+    .target(
+      name: "FolderFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
 		.target(
 			name: "RootTabFeature",
 			dependencies: [
 				"UIFeatureKit",
+        "FolderFeature",
+        "CalendarFeature",
+        "HomeFeature",
 			],
 			resources: [
 				.process("Resources")
@@ -83,11 +122,30 @@ let package = Package(
 			]
 		),
     .target(
+      name: "SearchFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
+    .target(
+      name: "SettingsFeature",
+      dependencies: [
+        "UIFeatureKit",
+      ],
+      resources: [
+        .process("Resources")
+      ]
+    ),
+    .target(
       name: "BaseFeature",
       dependencies: [
 //        .product(name: "Storage", package: "Service"),
         .product(name: "ThirdPartyKit", package: "Shared"),
         .product(name: "ImageResourceKit", package: "Shared"),
+        .product(name: "DesignKit", package: "Shared"),
         .product(name: "UIDesignKit", package: "UI"),
       ]
     ),

@@ -14,7 +14,7 @@ import UIKit
 
 public class AppDelegate: NSObject, UIApplicationDelegate {
   public let store = Store(
-    initialState: AppLogic.State(),
+    initialState: .initialState,
     reducer: {
 			AppLogic()._printChanges()
     }

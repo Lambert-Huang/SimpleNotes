@@ -23,6 +23,8 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/malcommac/SwiftDate.git", from: "7.0.0"),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.10.0"),
+    .package(url: "https://github.com/tgrapperon/swift-dependencies-additions.git", from: "1.0.2"),
+    .package(url: "https://github.com/johnpatrickmorgan/TCACoordinators.git", from: "0.10.0"),
   ],
   targets: [
     .target(
@@ -32,7 +34,9 @@ let package = Package(
     .target(
       name: "ThirdPartyKit", dependencies: [
         .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-        .product(name: "SwiftDate", package: "SwiftDate")
+        .product(name: "SwiftDate", package: "SwiftDate"),
+        .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
+        .product(name: "TCACoordinators", package: "TCACoordinators"),
       ]),
     .target(name: "ImageResourceKit", dependencies: [], resources: [.process("Resources")]),
   ])

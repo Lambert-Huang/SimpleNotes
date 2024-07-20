@@ -9,27 +9,27 @@ import Foundation
 import SwiftUI
 import UIFeatureKit
 
-public struct OnboardingFeature: Identifiable, Codable, Equatable {
+public struct OnboardingFeatureItem: Identifiable, Codable, Equatable {
 	public var id: UUID = .init()
 	public let systemIcon: String
 	public let title: String
 	public let description: String
 
-	public static let defaultFeatures: [OnboardingFeature] = [
-		OnboardingFeature(systemIcon: "folder.fill", title: LocalString("Folder-based Management", bundle: .module), description: LocalString("Organize your tasks in folders for neat and structured management.", bundle: .module)),
-		OnboardingFeature(systemIcon: "calendar", title: LocalString("Calendar Filtering", bundle: .module), description: LocalString("Quickly find tasks for specific dates to efficiently plan each day.", bundle: .module)),
-		OnboardingFeature(systemIcon: "mic.fill", title: LocalString("Voice Entry", bundle: .module), description: LocalString("Use voice input for your tasks to free your hands and enhance entry efficiency.", bundle: .module)),
-		OnboardingFeature(systemIcon: "cloud", title: LocalString("iCloud Sync", bundle: .module), description: LocalString("Sync your tasks across all devices to keep up to date anywhere, anytime.", bundle: .module))
+	public static let defaultFeatures: [OnboardingFeatureItem] = [
+		OnboardingFeatureItem(systemIcon: "folder.fill", title: LocalString("Folder-based Management", bundle: .module), description: LocalString("Organize your tasks in folders for neat and structured management.", bundle: .module)),
+		OnboardingFeatureItem(systemIcon: "calendar", title: LocalString("Calendar Filtering", bundle: .module), description: LocalString("Quickly find tasks for specific dates to efficiently plan each day.", bundle: .module)),
+		OnboardingFeatureItem(systemIcon: "mic.fill", title: LocalString("Voice Entry", bundle: .module), description: LocalString("Use voice input for your tasks to free your hands and enhance entry efficiency.", bundle: .module)),
+		OnboardingFeatureItem(systemIcon: "cloud", title: LocalString("iCloud Sync", bundle: .module), description: LocalString("Sync your tasks across all devices to keep up to date anywhere, anytime.", bundle: .module))
 	]
 }
 
 @Reducer
-public struct Onboarding {
+public struct OnboardingFeature {
 	public init() {}
 
 	@ObservableState
 	public struct State: Equatable {
-		var features: [OnboardingFeature] = []
+		var features: [OnboardingFeatureItem] = []
 		var isLoading = false
 		public init() {}
 	}
@@ -37,7 +37,7 @@ public struct Onboarding {
 	public enum Action {
 		case didTapContinueButton
 		case onTask
-		case onboardingFeaturesLoaded([OnboardingFeature])
+		case onboardingFeaturesLoaded([OnboardingFeatureItem])
 	}
 
 	public var body: some ReducerOf<Self> {
@@ -52,7 +52,7 @@ public struct Onboarding {
 				state.isLoading = true
 				return .run { send in
 					try await Task.sleep(nanoseconds: 1_500_000_000)
-					await send(.onboardingFeaturesLoaded(OnboardingFeature.defaultFeatures))
+					await send(.onboardingFeaturesLoaded(OnboardingFeatureItem.defaultFeatures))
 				}
 
 			case let .onboardingFeaturesLoaded(features):
@@ -65,8 +65,8 @@ public struct Onboarding {
 }
 
 public struct OnboardingView: View {
-	let store: StoreOf<Onboarding>
-	public init(store: StoreOf<Onboarding>) {
+	let store: StoreOf<OnboardingFeature>
+	public init(store: StoreOf<OnboardingFeature>) {
 		self.store = store
 	}
 
@@ -139,8 +139,8 @@ public struct OnboardingView: View {
 #Preview {
 	OnboardingView(
 		store: Store(
-			initialState: Onboarding.State(),
-			reducer: { Onboarding() }
+			initialState: OnboardingFeature.State(),
+			reducer: { OnboardingFeature() }
 		)
 	)
 }
