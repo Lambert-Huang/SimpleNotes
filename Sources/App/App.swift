@@ -8,6 +8,7 @@
 import SwiftUI
 import ComposableArchitecture
 import AppFeature
+import CoreData
 
 //final class AppDelegate: NSObject, UIApplicationDelegate {
 //
@@ -56,11 +57,13 @@ struct SimpleNotesApp: App {
   #elseif os(macOS)
   @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
   #endif
+	@Dependency(\.database) var database
 	var body: some Scene {
 		WindowGroup {
 			AppView(
 				store: appDelegate.store
 			)
 		}
+		.environment(\.managedObjectContext, try! database.container().viewContext)
 	}
 }

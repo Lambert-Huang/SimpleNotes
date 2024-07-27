@@ -14,7 +14,12 @@ public struct TodoView: View {
 	@ObservedObject private var todo: Todo
 	private var checkTapped: (Todo) -> Void
 	private var onTapped: (Todo) -> Void
-	
+	private var isComplete: Bool {
+		todo.isComplete
+	}
+	private var checkImage: Image {
+		isComplete ? Image.CheckCircleFill : Image.Circle
+	}
 	public init(
 		todo: Todo,
 		checkTapped: @escaping (Todo) -> Void,
@@ -63,8 +68,7 @@ public struct TodoView: View {
 					checkTapped(todo)
 				}
 			} label: {
-				let image = todo.isComplete ? Image.CheckCircleFill : Image.Circle
-				image
+				checkImage
 					.resizable()
 					.renderingMode(.template)
 					.frame(width: 30, height: 30)

@@ -16,6 +16,7 @@
 		7156E3B02BB267D10089DB8F /* BuildConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7156E3A62BB267D10089DB8F /* BuildConfiguration.plist */; };
 		7156E3B12BB267D10089DB8F /* Staging.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7156E3A72BB267D10089DB8F /* Staging.xcconfig */; };
 		7156E3B22BB267D10089DB8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7156E3AA2BB267D10089DB8F /* Assets.xcassets */; };
+		719A27432C54FDB00017A019 /* Database in Frameworks */ = {isa = PBXBuildFile; productRef = 719A27422C54FDB00017A019 /* Database */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7156E39D2BB266ED0089DB8F /* AppFeature in Frameworks */,
+				719A27432C54FDB00017A019 /* Database in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +158,7 @@
 			name = App;
 			packageProductDependencies = (
 				7156E39C2BB266ED0089DB8F /* AppFeature */,
+				719A27422C54FDB00017A019 /* Database */,
 			);
 			productName = App;
 			productReference = 7156E3892BB264610089DB8F /* SimpleNotes.app */;
@@ -874,6 +877,10 @@
 		7156E39C2BB266ED0089DB8F /* AppFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFeature;
+		};
+		719A27422C54FDB00017A019 /* Database */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Database;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
