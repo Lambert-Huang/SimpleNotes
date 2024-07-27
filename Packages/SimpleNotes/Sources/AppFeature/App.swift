@@ -3,12 +3,12 @@ import OnboardingFeature
 import RootTabFeature
 import SwiftUI
 import Combine
+import DependenciesAdditions
 
 @Reducer
 public struct AppLogic {
-	public init() {
-		
-	}
+	public init() {}
+	
 	@ObservableState
 	public struct State: Equatable {
     public static let initialState = State(
@@ -79,8 +79,13 @@ public struct AppView: View {
 #Preview {
   AppView(
     store: Store(
-      initialState: AppLogic.State(onboarding: OnboardingFeature.State(), rootTab: RootTabFeature.State()),
-      reducer: { AppLogic() }
+			initialState: AppLogic.State(
+				onboarding: OnboardingFeature.State(),
+				rootTab: RootTabFeature.State()
+			),
+			reducer: {
+				AppLogic()
+			}
     )
   )
 }

@@ -16,7 +16,14 @@ public struct HomeFeature {
   
   @ObservableState
   public struct State: Equatable {
-    public static let initialState = Self(routes: [.root(.homeRoot(HomeRootFeature.State()), embedInNavigationView: true)])
+		public static let initialState = Self(
+			routes: [.root(
+				.homeRoot(
+					HomeRootFeature.State()
+				),
+				embedInNavigationView: true
+			)]
+		)
     var search = SearchFeature.State()
     var settings = SettingsFeature.State()
     var routes: [Route<HomeScreen.State>]
@@ -30,7 +37,7 @@ public struct HomeFeature {
   public var body: some ReducerOf<Self> {
     BindingReducer()
     Reduce { state, action in
-      guard case let .homeRoot(homeRoot) = state.routes.first?.screen else {
+      guard case .homeRoot = state.routes.first?.screen else {
         return .none
       }
       switch action {
@@ -65,7 +72,7 @@ public struct HomeView: View {
       TCARouter(store.scope(state: \.routes, action: \.router)) { screen in
         switch screen.case {
           case let .homeRoot(store):
-            HomeRootView(store: store)
+					HomeRootView(store: store)
           case let .search(store):
             SearchView(store: store)
           case let .settings(store):

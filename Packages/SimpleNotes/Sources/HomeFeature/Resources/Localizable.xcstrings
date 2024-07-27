@@ -22,6 +22,17 @@
           }
         }
       }
+    },
+    "Today's todos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日待办"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

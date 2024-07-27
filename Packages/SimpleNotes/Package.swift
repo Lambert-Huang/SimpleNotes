@@ -142,7 +142,7 @@ let package = Package(
     .target(
       name: "BaseFeature",
       dependencies: [
-//        .product(name: "Storage", package: "Service"),
+        .product(name: "Database", package: "Service"),
         .product(name: "ThirdPartyKit", package: "Shared"),
         .product(name: "ImageResourceKit", package: "Shared"),
         .product(name: "DesignKit", package: "Shared"),

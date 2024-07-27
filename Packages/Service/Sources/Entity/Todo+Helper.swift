@@ -9,6 +9,12 @@ import Foundation
 import CoreData
 
 public extension Todo {
+	
+	var id: UUID {
+		get { id_ ?? UUID() }
+		set { id_ = newValue }
+	}
+	
   var todo: String {
     get { todo_ ?? "" }
     set { todo_ = newValue }
@@ -24,8 +30,9 @@ public extension Todo {
     return "\(components.year!)-\(components.month!)-\(components.day!)"
   }
   
-  convenience init(todo: String, context: NSManagedObjectContext) {
+	convenience init(id: UUID, todo: String, context: NSManagedObjectContext) {
     self.init(context: context)
+		self.id_ = id
     self.todo = todo
   }
   

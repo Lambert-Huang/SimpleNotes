@@ -12,8 +12,8 @@ let package = Package(
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .library(
-      name: "Service",
-      targets: ["Service"]),
+      name: "Database",
+      targets: ["Database"]),
     .library(
       name: "Entity",
       targets: ["Entity"]),
@@ -25,11 +25,12 @@ let package = Package(
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     .target(
-      name: "Service", dependencies: [
+      name: "Database", dependencies: [
+				"Entity",
         .product(name: "ThirdPartyKit", package: "Shared"),
-      ]),
+			], resources: [.process("Resources")]),
     .target(
       name: "Entity", dependencies: [
         
-      ]),
+			], resources: [.process("Todo.xcdatamodeld")]),
   ])

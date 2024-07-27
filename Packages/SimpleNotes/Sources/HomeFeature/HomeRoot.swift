@@ -7,19 +7,29 @@
 
 import SwiftUI
 import UIFeatureKit
+import Entity
+import Database
 
 @Reducer
 public struct HomeRootFeature {
   public init() {}
+	
+	@Dependency(\.database) var database
+	@Dependency(\.todoDatabase) var todoDatabase
   
   @ObservableState
   public struct State: Equatable {
+		var todos: [Todo] = []
     public init() {}
   }
   
   public enum Action: BindableAction {
-    case binding(BindingAction<State>)
-    case didTapSettingsButton
+		case binding(BindingAction<State>)
+		case checkTodo(Todo)
+		case didTapSettingsButton
+		case onTask
+		case tapTodo(Todo)
+		case todaysTodos([Todo])
   }
   
   public var body: some ReducerOf<Self> {
@@ -28,9 +38,32 @@ public struct HomeRootFeature {
       switch action {
         case .binding:
           return .none
+				
+			case let .checkTodo(todo):
+				let originalState = todo.isComplete
+				todo.isComplete.toggle()
+				return .run { _ in
+					try todo.managedObjectContext?.save()
+				} catch: { error, _ in
+					todo.isComplete = originalState
+				}
+
           
         case .didTapSettingsButton:
           return .none
+				
+			case .onTask:
+				return .run { send in
+					let todos = try todoDatabase.fetchAll()
+					await send(.todaysTodos(todos))
+				}
+				
+			case let .tapTodo(todo):
+				return .none
+				
+			case let .todaysTodos(todos):
+				state.todos = todos
+				return .none
       }
     }
   }
@@ -38,7 +71,7 @@ public struct HomeRootFeature {
 
 
 public struct HomeRootView: View {
-  @Perception.Bindable var store: StoreOf<HomeRootFeature>
+  var store: StoreOf<HomeRootFeature>
   public init(store: StoreOf<HomeRootFeature>) {
     self.store = store
   }
@@ -56,9 +89,30 @@ public struct HomeRootView: View {
           ScrollView {
             searchView
               .padding(20)
+						
+						LazyVStack {
+							Text("Today's todos", bundle: .module)
+								.font(.headline)
+								.frame(maxWidth: .infinity, alignment: .leading)
+							if store.todos.isEmpty {
+								BoxEmptyView(state: .emptyTodoForToday)
+							} else {
+								ForEach(store.todos) { todo in
+									TodoView(
+										todo: todo,
+										checkTapped: { store.send(.checkTodo($0)) },
+										onTapped: { store.send(.tapTodo($0)) }
+									)
+								}
+							}
+						}
+						.padding(.horizontal, 20)
           }
         }
       }
+			.task {
+				await store.send(.onTask).finish()
+			}
     }
   }
 }
@@ -91,11 +145,15 @@ private extension HomeRootView {
   }
 }
 
+
 #Preview {
   HomeRootView(
     store: Store(
       initialState: HomeRootFeature.State(),
-      reducer: HomeRootFeature.init
+      reducer: HomeRootFeature.init,
+			withDependencies: {
+				$0.database = .testValue
+			}
     )
   )
 }

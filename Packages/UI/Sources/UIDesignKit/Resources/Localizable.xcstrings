@@ -29,7 +29,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无待办事项"
+            "value" : " 这里什么都没有"
           }
         }
       }
@@ -73,7 +73,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无"
+            "value" : "无待办事项"
           }
         }
       }

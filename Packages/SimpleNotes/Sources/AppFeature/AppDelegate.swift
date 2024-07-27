@@ -17,8 +17,7 @@ public class AppDelegate: NSObject, UIApplicationDelegate {
     initialState: .initialState,
     reducer: {
 			AppLogic()._printChanges()
-    }
-  )
+		})
   public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     setupDateRegion()
     return true
