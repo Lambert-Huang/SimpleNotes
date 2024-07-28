@@ -27,10 +27,11 @@ public extension Todo {
 		return "\(components.year!)-\(components.month!)-\(components.day!)"
 	}
 
-	convenience init(id: UUID, todo: String, context: NSManagedObjectContext) {
+	convenience init(id: UUID, todo: String, folder: Folder, in context: NSManagedObjectContext) {
 		self.init(context: context)
 		self.id_ = id
 		self.todo = todo
+		self.folder = folder
 	}
 
 	override func awakeFromInsert() {
@@ -51,5 +52,12 @@ public extension Todo {
 		let startOfDay = calendar.startOfDay(for: date)
 		let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
 		return NSPredicate(format: "targetDate_ >= %@ AND targetDate_ < %@", startOfDay as NSDate, endOfDay as NSDate)
+	}
+	static func defaultSortDescriptors() -> [NSSortDescriptor] {
+		[
+			NSSortDescriptor(keyPath: \Todo.isComplete, ascending: true),
+			NSSortDescriptor(keyPath: \Todo.targetDate_, ascending: false),
+			NSSortDescriptor(key: "todo_", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:))),
+		]
 	}
 }

@@ -17,6 +17,6 @@ extension FetchRequestWrapperView where Entity == Todo {
 		@ViewBuilder content: @escaping ([Todo]) -> Content
 	) {
 		let predicate = Todo.predicate(sameDayAs: date, hideComplete: hideCompleteTodo)
-		self.init(sortDescriptors: [], predicate: predicate, content: content)
+		self.init(sortDescriptors: Todo.defaultSortDescriptors(), predicate: predicate, content: content)
 	}
 }

@@ -64,7 +64,7 @@ public struct RootTabFeature {
     @Shared(.appStorage("selectedTab")) var selectedTab: RootTab = .home
     var home = HomeFeature.State.initialState
     var calendar = CalendarFeature.State()
-    var folder = FolderFeature.State()
+		var folder = FolderFeature.State.intialState
     public init() {}
 	}
   public enum Action: BindableAction {
@@ -130,7 +130,7 @@ public struct RootTabView: View {
         .tabItem { RootTab.calendar.tabItem(isSelected: store.selectedTab == .calendar) }
         .tag(RootTab.calendar)
         
-        FolderView(
+        FolderRootView(
           store: store.scope(
             state: \.folder,
             action: \.folder

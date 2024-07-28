@@ -7,8 +7,9 @@
 
 import SwiftUI
 import CoreData
+import Entity
 
-public struct FetchRequestWrapperView<Entity: NSManagedObject, Content: View>: View {
+public struct FetchRequestWrapperView<Entity: ManagedEntity, Content: View>: View {
 	@FetchRequest var fetchRequest: FetchedResults<Entity>
 	public let content: ([Entity]) -> Content
 	public init(

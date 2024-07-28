@@ -16,9 +16,11 @@ public struct Database {
 
 @MainActor
 private let persistentContainer: PersistentContainer = {
-	let container = PersistentContainer(name: "Todo", bundle: .todoBundle, inMemory: false).withInitialData()
+	let container = PersistentContainer(name: "Todo", bundle: .todoBundle, inMemory: true).withInitialData()
 	return container
 }()
+
+public let testPersistentContainer: PersistentContainer = .testValue
 
 public extension PersistentContainer {
 	@MainActor
@@ -34,8 +36,8 @@ public extension PersistentContainer {
 				let todoEntity = Todo(entity: entityDescription, insertInto: context)
 				todoEntity.id = uuid()
 				todoEntity.todo_ = todo
-				todoEntity.folder = folder
-				todoEntity.targetDate_ = Date()
+//				todoEntity.folder = folder
+				todoEntity.targetDate_ = .now
 				return todoEntity
 			}
 
@@ -79,7 +81,7 @@ extension Database: DependencyKey {
 
 	@MainActor
 	public static var testValue = Database(
-		container: { persistentContainer }
+		container: { testPersistentContainer }
 	)
 }
 
@@ -91,37 +93,31 @@ public extension DependencyValues {
 }
 
 public struct TodoDatabase {
-	public var fetchAll: @Sendable () throws -> [Todo]
-	public var fetch: @Sendable (NSPredicate) throws -> [Todo]
+	public var fetch: @Sendable (_ predicate: NSPredicate?, _ sortedBy: [NSSortDescriptor]) throws -> [Todo]
 }
 
 extension TodoDatabase: DependencyKey {
 	public static var liveValue = TodoDatabase(
-		fetchAll: {
+		fetch: {
+			predicate,
+			sortedBy in
 			@Dependency(\.database.container) var container
-			guard let storeUrl = try container().viewContext.persistentStoreCoordinator?.persistentStores.first?.url else {
-				throw NSError(domain: "TodoDatabase", code: 2, userInfo: [NSLocalizedDescriptionKey: "Persistent store not loaded"])
-			}
 			let context = try container().viewContext
-			guard let entityDescription = NSEntityDescription.entity(forEntityName: "Todo", in: context) else {
-				throw NSError(domain: "TodoDatabase", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get entity description for Todo"])
-			}
-			
-			let request = Todo.fetchRequest()
-			request.predicate = NSPredicate(format: "TRUEPREDICATE")
-			request.sortDescriptors = [
-				NSSortDescriptor(keyPath: \Todo.targetDate_, ascending: false)
+			return try Todo.fetch(
+				matching: predicate,
+				sortedBy: sortedBy,
+				in: context
+			)
+		}
+	)
+	public static var testValue = TodoDatabase(
+		fetch: { _, _ in
+			let context = testPersistentContainer.viewContext
+			let folder = Folder(id: UUID(1000), title: "默认的", hexColor: "#000000", context: context)
+			return [
+				Todo(id: UUID(0), todo: "Like the Wind", folder: folder, in: context),
+				Todo(id: UUID(1), todo: "啊", folder: folder, in: context),
 			]
-			return try context.fetch(request)
-		},
-		fetch: { predicate in
-			let request = NSFetchRequest<Todo>(entityName: "Todo")
-			request.predicate = predicate
-			request.sortDescriptors = [
-				NSSortDescriptor(keyPath: \Todo.targetDate_, ascending: false)
-			]
-			@Dependency(\.database.container) var container
-			return try container().viewContext.fetch(request)
 		}
 	)
 }
@@ -134,38 +130,20 @@ public extension DependencyValues {
 }
 
 public struct FolderDatabase {
-	public var fetchAll: @Sendable () throws -> [Folder]
-	public var fetch: @Sendable (NSPredicate) throws -> [Folder]
+	public var fetch: @Sendable (_ predicate: NSPredicate?) throws -> [Folder]
 }
 
 extension FolderDatabase: DependencyKey {
 	public static var liveValue = FolderDatabase(
-		fetchAll: {
+		fetch: {
+			predicate in
 			@Dependency(\.database.container) var container
 			let context = try container().viewContext
-			guard let entityDescription = NSEntityDescription.entity(forEntityName: "Folder", in: context) else {
-				throw NSError(domain: "FolderDatabase", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to get entity description for Folder"])
-			}
-			let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Folder")
-			request.predicate = NSPredicate(format: "TRUEPREDICATE")
-			request.sortDescriptors = [
-				NSSortDescriptor(keyPath: \Folder.title_, ascending: true)
-			]
-
-			@Dependency(\.logger) var logger
-			let results = try context.fetch(request)
-			let folders = results.compactMap { $0 as? Folder }
-			logger.debug("results: \(results.count) folders: \(folders.count)")
-			return folders
-		},
-		fetch: { predicate in
-			let request = NSFetchRequest<Folder>(entityName: "Folder")
-			request.predicate = predicate
-			request.sortDescriptors = [
-				NSSortDescriptor(keyPath: \Folder.title, ascending: true)
-			]
-			@Dependency(\.database.container) var container
-			return try container().viewContext.fetch(request)
+			return try Folder.fetch(
+				matching: predicate,
+				sortedBy: Folder.defaultSortDescriptors(),
+				in: context
+			)
 		}
 	)
 }

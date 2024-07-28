@@ -34,3 +34,12 @@ public extension Folder {
     
   }
 }
+
+public extension Folder {
+	static func defaultSortDescriptors() -> [NSSortDescriptor] {
+		[
+			NSSortDescriptor(key: "todoCount", ascending: false),
+			NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:))),
+		]
+	}
+}

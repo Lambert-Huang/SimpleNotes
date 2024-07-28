@@ -24,8 +24,6 @@ public struct HomeFeature {
 				embedInNavigationView: true
 			)]
 		)
-    var search = SearchFeature.State()
-    var settings = SettingsFeature.State()
     var routes: [Route<HomeScreen.State>]
   }
   

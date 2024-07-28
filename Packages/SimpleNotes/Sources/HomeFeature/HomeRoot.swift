@@ -26,7 +26,6 @@ public struct HomeRootFeature {
 	public enum Action: BindableAction {
 		case binding(BindingAction<State>)
 		case checkTodo(Todo)
-		case didFetchedTodos([Todo])
 		case didTapSettingsButton
 		case onTask
 		case tapTodo(Todo)
@@ -48,17 +47,11 @@ public struct HomeRootFeature {
 						todo.isComplete = originalState
 					}
 				
-				case let .didFetchedTodos(todos):
-					state.todos = todos
-					return .none
-				
 				case .didTapSettingsButton:
 					return .none
 				
 				case .onTask:
-				return .run { send in
-					await send(.didFetchedTodos(try todoDatabase.fetchAll()))
-				}
+					return .none
 				
 				case .tapTodo:
 					return .none
@@ -87,12 +80,10 @@ public struct HomeRootView: View {
 					ScrollView {
 						searchView
 							.padding(20)
-						todayTodoListView(store.todos)
-							.padding(.horizontal, 20)
-//						FetchRequestWrapperView(sameDayAs: .now, hideCompleteTodo: false) { todos in
-//							todayTodoListView(todos)
-//								.padding(.horizontal, 20)
-//						}
+						FetchRequestWrapperView(sameDayAs: .now, hideCompleteTodo: false) { todos in
+							todayTodoListView(todos)
+								.padding(.horizontal, 20)
+						}
 					}
 				}
 			}
@@ -150,13 +141,12 @@ private extension HomeRootView {
 }
 
 #Preview {
-	HomeRootView(
+	@Dependency(\.database) var database
+	return HomeRootView(
 		store: Store(
 			initialState: HomeRootFeature.State(),
-			reducer: HomeRootFeature.init,
-			withDependencies: {
-				$0.database = .testValue
-			}
+			reducer: HomeRootFeature.init
 		)
 	)
+	.environment(\.managedObjectContext, try! database.container().viewContext)
 }
